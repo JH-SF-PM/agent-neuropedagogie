@@ -20,7 +20,9 @@ import mistralai.agents as agents
         "required": ["video_url", "confirmation"],
     },
 )
-async def analyser_video_formation(video_url: str, confirmation: bool) -> dict:
+async def analyser_video_formation(args: dict) -> dict:
+    video_url = args["video_url"]
+    confirmation = args["confirmation"]
     if not confirmation:
         return {
             "erreur": "Confirmation explicite requise pour analyser la vidéo",
@@ -50,7 +52,11 @@ async def analyser_video_formation(video_url: str, confirmation: bool) -> dict:
         },
     },
 )
-async def creer_quiz_memoire(theme: str = "mémoire", niveau: str = "intermediaire", nombre_questions: int = 5) -> dict:
+async def creer_quiz_memoire(args: dict) -> dict:
+    theme = args.get("theme", "mémoire")
+    niveau = args.get("niveau", "intermediaire")
+    nombre_questions = args.get("nombre_questions", 5)
+
     questions = []
     if theme == "mémoire":
         questions = [
@@ -90,7 +96,10 @@ async def creer_quiz_memoire(theme: str = "mémoire", niveau: str = "intermediai
         "required": ["description_session"],
     },
 )
-async def evaluer_piliers_apprentissage(description_session: str, duree: int = 60) -> dict:
+async def evaluer_piliers_apprentissage(args: dict) -> dict:
+    description_session = args["description_session"]
+    duree = args.get("duree", 60)
+
     piliers = {
         "Attention": {"present": False, "niveau": 0, "suggestions": []},
         "Engagement actif": {"present": False, "niveau": 0, "suggestions": []},
@@ -143,7 +152,11 @@ async def evaluer_piliers_apprentissage(description_session: str, duree: int = 6
         },
     },
 )
-async def conseiller_outils_interactifs(type_formation: str = "en ligne", taille_groupe: int = 10, objectifs: str = "") -> dict:
+async def conseiller_outils_interactifs(args: dict) -> dict:
+    type_formation = args.get("type_formation", "en ligne")
+    taille_groupe = args.get("taille_groupe", 10)
+    objectifs = args.get("objectifs", "")
+
     outils = []
     if taille_groupe <= 20:
         outils.extend(
